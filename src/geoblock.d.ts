@@ -149,12 +149,17 @@ export default class GeoBlock {
   /**
    * Apply visual blocking to the page
    */
-  applyVisualBlocking(countryData: CountryInfo): void;
+  applyVisualBlocking(countryData: CountryInfo | AccessResult): void;
 
   /**
    * Format the block message with country information
    */
-  formatBlockMessage(countryData: CountryInfo): string;
+  formatBlockMessage(countryData: CountryInfo | AccessResult): string;
+
+  /**
+   * Compute which presets are blocking a specific country code
+   */
+  computeBlockingPresets(countryCode: string): string[];
 
   /**
    * Remove visual blocking from the page

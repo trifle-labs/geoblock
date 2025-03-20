@@ -437,7 +437,16 @@ class GeoBlock {
 
     // Create message text
     const message = document.createElement('div');
-    message.innerHTML = this.formatBlockMessage(countryData);
+
+    // Make sure we pass all the data including blockingPresets to formatBlockMessage
+    message.innerHTML = this.formatBlockMessage({
+      ...countryData,
+      // If blockingPresets is missing, compute it manually
+      blockingPresets:
+        countryData.blockingPresets ||
+        this.computeBlockingPresets(countryData.countryCode),
+    });
+
     messageContainer.appendChild(message);
 
     // Apply default styles
@@ -631,6 +640,28 @@ class GeoBlock {
       return null;
     }
     return [...this.presets[presetName]];
+  }
+
+  /**
+   * Compute which presets are blocking a specific country code
+   * @param {String} countryCode - The country code to check
+   * @returns {Array} Array of preset names that block this country
+   */
+  computeBlockingPresets(countryCode) {
+    if (!countryCode) return [];
+
+    const blockingPresets = [];
+
+    this.config.activePresets.forEach((presetName) => {
+      if (
+        this.presets[presetName] &&
+        this.presets[presetName].includes(countryCode)
+      ) {
+        blockingPresets.push(presetName);
+      }
+    });
+
+    return blockingPresets;
   }
 }
 
