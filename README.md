@@ -91,6 +91,7 @@ geoblock.checkAndBlock().then((hasAccess) => {
 The library includes the following built-in presets:
 
 - `sanctions`: Countries under international sanctions
+- `skillprize`: Countries with strict skill-based prize regulations
 - `gambling`: Countries with strict gambling regulations
 - `lottery`: Countries with strict lottery regulations
 - `raffle`: Countries with raffle restrictions
@@ -103,6 +104,13 @@ const geoblock = new GeoBlock({
   presets: {
     // Override or add custom presets
     custom: ['FR', 'DE', 'IT'],
+  },
+
+  // Custom descriptions for presets (shown in blocking message)
+  presetDescriptions: {
+    gambling: 'Gambling and betting regulations',
+    custom: 'European regulations',
+    // Override any preset description
   },
 
   // Which presets to apply (can use multiple)

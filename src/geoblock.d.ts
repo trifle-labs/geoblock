@@ -8,6 +8,11 @@ export interface GeoBlockOptions {
   presets?: Record<string, string[]>;
 
   /**
+   * Custom descriptions for presets shown in blocking message
+   */
+  presetDescriptions?: Record<string, string>;
+
+  /**
    * Which presets to apply
    */
   activePresets?: string[];
@@ -110,6 +115,11 @@ export interface AccessResult extends CountryInfo {
    * Whether the user is blocked
    */
   isBlocked: boolean;
+
+  /**
+   * List of presets that caused the blocking
+   */
+  blockingPresets: string[];
 }
 
 /**

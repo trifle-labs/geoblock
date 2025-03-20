@@ -7,7 +7,7 @@
 
 class GeoBlock {
   constructor(options = {}) {
-    // Country presets
+    // Country presets with descriptions
     this.presets = {
       // Countries under international sanctions
       // including but not limited to Cuba, Iran, North Korea, Syria, Venezuela, the Crimea region of Ukraine, and the so-called Donetsk People's Republic and Luhansk People's Republic regions of Ukraine (collectively, "Sanctioned Territories"); (ii) they are not identified on any sanctions-related list of designated persons, including but not limited to the U.S. Treasury Department's Specially Designated Nationals List, the EU's Consolidated List of Persons, Groups and Entities Subject to EU Financial Sanctions, or the UK's Consolidated List of Financial Sanctions Targets (collectively, "Sanctions Lists")
@@ -127,7 +127,7 @@ class GeoBlock {
       ],
 
       // Countries with strict skill based prize regulations
-      // Brazil, United Arab Emirates (UAE), Saudi Arabia, Italy, India, Mexico, Qatar, Sweden, Poland, Cayman Islands and any other country or jurisdiction where participation in this Sweepstakes or the distribution of prizes would violate local laws or regulations
+      // Brazil, United Arab Emirates (UAE), Saudi Arabia, Italy, India, Mexico, Qatar, Sweden, Poland, Cayman Islands and any other country or jurisdiction where participation in this skillprize competition or the distribution of prizes would violate local laws or regulations
       skillprize: [
         'BR', // Brazil
         'AE', // United Arab Emirates
@@ -155,6 +155,27 @@ class GeoBlock {
         'ID', // Indonesia
         'MY', // Malaysia
       ],
+    };
+
+    // Preset descriptions for user-friendly messages
+    this.presetDescriptions = {
+      sanctions:
+        options.presetDescriptions?.sanctions ||
+        'Countries under international sanctions',
+      gambling:
+        options.presetDescriptions?.gambling ||
+        'Countries with strict gambling regulations',
+      lottery:
+        options.presetDescriptions?.lottery ||
+        'Countries with strict lottery regulations',
+      skillprize:
+        options.presetDescriptions?.skillprize ||
+        'Countries with strict skill-based prize regulations',
+      raffle:
+        options.presetDescriptions?.raffle ||
+        'Countries with raffle restrictions',
+      // Allow custom presets to have descriptions
+      ...(options.presetDescriptions || {}),
     };
 
     // Allow custom preset definitions if provided
@@ -331,11 +352,25 @@ class GeoBlock {
     // Check if country is in blocked list
     const isBlocked = this.blockedCountries.includes(countryData.countryCode);
 
+    // Find which presets triggered the block
+    const blockingPresets = [];
+    if (isBlocked) {
+      this.config.activePresets.forEach((presetName) => {
+        if (
+          this.presets[presetName] &&
+          this.presets[presetName].includes(countryData.countryCode)
+        ) {
+          blockingPresets.push(presetName);
+        }
+      });
+    }
+
     return {
       isBlocked,
       countryCode: countryData.countryCode,
       country: countryData.country,
       ip: countryData.ip,
+      blockingPresets,
     };
   }
 
@@ -483,7 +518,7 @@ class GeoBlock {
 
   /**
    * Format the block message with country information
-   * @param {Object} countryData - Country information
+   * @param {Object} countryData - Country information with blocking presets
    * @returns {String} Formatted message
    */
   formatBlockMessage(countryData) {
@@ -496,27 +531,52 @@ class GeoBlock {
       countryData.countryCode || 'XX'
     );
 
+    // Format the blocking preset information if available
+    let presetInfo = '';
+    if (countryData.blockingPresets && countryData.blockingPresets.length > 0) {
+      const presetDescriptions = countryData.blockingPresets
+        .map((preset) => {
+          const description = this.presetDescriptions[preset] || preset;
+          return `<li>${description}</li>`;
+        })
+        .join('');
+
+      presetInfo = `
+        <p style="margin-top: 15px; font-size: 0.9em; text-align: left;">
+          <strong>Restriction Type${
+            countryData.blockingPresets.length > 1 ? 's' : ''
+          }:</strong>
+          <ul style="margin-top: 5px; padding-left: 20px; text-align: left;">
+            ${presetDescriptions}
+          </ul>
+        </p>
+      `;
+    }
+
     // Add the standard notice and disclaimer
     message += `
-      <p style="margin-top: 20px; font-size: 0.9em;">
+      <div style="margin-top: 20px; font-size: 0.9em; text-align: left;">
         <strong>Important Notice:</strong> We've detected that you're accessing from ${
           countryData.country || countryData.countryCode
         }. 
-        Some features of this site may be restricted or not permitted in your region.
-        <br><br>
-        Please be aware that it is your responsibility to comply with your local laws and regulations.
-        Continuing to use this site where prohibited may violate local regulations.
+        ${presetInfo}
+        <p style="margin-top: 15px;">
+          Some features of this site may be restricted or not permitted in your region.
+          Please be aware that it is your responsibility to comply with your local laws and regulations.
+          Continuing to use this site where prohibited may violate local regulations.
+        </p>
         ${
           this.config.legalEntity
-            ? `<br><br>
+            ? `<p style="margin-top: 15px;">
           ${this.config.legalEntity} bears no liability for any legal consequences that may arise from accessing or using 
-          this service in jurisdictions where such activities are restricted or prohibited.`
+          this service in jurisdictions where such activities are restricted or prohibited.</p>`
             : ''
         }
-        <br><br>
-        <em>Note: If you believe you're seeing this message in error, please check if you have a VPN 
-        or proxy service enabled, as this may incorrectly identify your location.</em>
-      </p>`;
+        <p style="margin-top: 15px; font-style: italic;">
+          Note: If you believe you're seeing this message in error, please check if you have a VPN 
+          or proxy service enabled, as this may incorrectly identify your location.
+        </p>
+      </div>`;
 
     return message;
   }
