@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GeoBlock Basic Example</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          Helvetica, Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        line-height: 1.5;
+      }
+      h1 {
+        margin-bottom: 1.5rem;
+      }
+      .demo-section {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background-color: #f5f5f5;
+        border-radius: 0.5rem;
+      }
+      button {
+        background-color: #4361ee;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+      button:hover {
+        background-color: #3a56d4;
+      }
+      pre {
+        background-color: #f0f0f0;
+        padding: 1rem;
+        overflow: auto;
+        border-radius: 0.25rem;
+      }
+      .result {
+        margin-top: 1rem;
+        padding: 1rem;
+        background-color: #e0e0e0;
+        border-radius: 0.25rem;
+      }
+      #countryInfo {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>GeoBlock Basic Example</h1>
+
+    <div class="demo-section">
+      <h2>Simple Country Check</h2>
+      <p>Click to check your current country:</p>
+      <button id="checkCountryBtn">Check My Country</button>
+      <div class="result">
+        <p>Your country: <span id="countryInfo">Not checked yet</span></p>
+      </div>
+      <pre>
+const geoblock = new GeoBlock();
+const countryInfo = await geoblock.getCountryInfo();
+console.log(countryInfo);
+    </pre
+      >
+    </div>
+
+    <div class="demo-section">
+      <h2>Testing the Block Screen</h2>
+      <p>Simulate being blocked with test mode:</p>
+      <button id="testBlockBtn">Test Block Screen</button>
+      <button id="testBlockNoDismissBtn" style="background-color: #6a4c93">
+        Block (No Dismiss)
+      </button>
+      <button id="removeBlockBtn" style="background-color: #e63946">
+        Remove Block
+      </button>
+      <p>
+        <strong>Note:</strong> The blocking screen includes an X button in the
+        top-right corner that allows users to dismiss the notice. You can click
+        on the background or on the X to close the blocking notice.
+      </p>
+      <pre>
+const geoblock = new GeoBlock({
+  testMode: true,
+  testCountry: 'US',
+  activePresets: ['gambling'],
+  // Optional: disable dismissal
+  // allowDismiss: false
+});
+await geoblock.checkAndBlock();
+    </pre
+      >
+    </div>
+
+    <div class="demo-section">
+      <h2>Check Access for Different Presets</h2>
+      <p>Check if your country is blocked under different presets:</p>
+      <div>
+        <button class="preset-btn" data-preset="gambling">
+          Check Gambling Restrictions
+        </button>
+        <button class="preset-btn" data-preset="lottery">
+          Check Lottery Restrictions
+        </button>
+        <button class="preset-btn" data-preset="sanctions">
+          Check Sanctions
+        </button>
+      </div>
+      <div class="result" id="presetResult">Select a preset to check</div>
+      <pre>
+const geoblock = new GeoBlock({
+  activePresets: ['gambling'] // or 'lottery', 'sanctions', etc.
+});
+const result = await geoblock.checkAccess();
+console.log(result);
+    </pre
+      >
+    </div>
+
+    <!-- Add a scrollable section to test overlay positioning -->
+    <div class="demo-section">
+      <h2>Scrollable Content</h2>
+      <p>
+        This section contains a lot of text to make the page scrollable. This
+        helps test that the blocking overlay is properly positioned even when
+        the page is scrolled.
+      </p>
+      <div
+        style="
+          height: 200px;
+          overflow-y: auto;
+          border: 1px solid #ccc;
+          padding: 10px;
+        "
+      >
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod,
+          nisl nec ultricies ultricies, nunc nisl ultricies nunc, quis ultricies
+          nisl nisl nec ultricies. Sed euismod, nisl nec ultricies ultricies,
+          nunc nisl ultricies nunc, quis ultricies nisl nisl nec ultricies.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod,
+          nisl nec ultricies ultricies, nunc nisl ultricies nunc, quis ultricies
+          nisl nisl nec ultricies. Sed euismod, nisl nec ultricies ultricies,
+          nunc nisl ultricies nunc, quis ultricies nisl nisl nec ultricies.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod,
+          nisl nec ultricies ultricies, nunc nisl ultricies nunc, quis ultricies
+          nisl nisl nec ultricies. Sed euismod, nisl nec ultricies ultricies,
+          nunc nisl ultricies nunc, quis ultricies nisl nisl nec ultricies.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod,
+          nisl nec ultricies ultricies, nunc nisl ultricies nunc, quis ultricies
+          nisl nisl nec ultricies. Sed euismod, nisl nec ultricies ultricies,
+          nunc nisl ultricies nunc, quis ultricies nisl nisl nec ultricies.
+        </p>
+      </div>
+      <button
+        id="testBlockWithScrollBtn"
+        style="margin-top: 10px; background-color: #2a9d8f"
+      >
+        Test Block After Scrolling
+      </button>
+    </div>
+
+    <!-- Load the GeoBlock library -->
+    <script src="../dist/geoblock.js"></script>
+
+    <script>
+      // Simple country check
+      document
+        .getElementById('checkCountryBtn')
+        .addEventListener('click', async function () {
+          const geoblock = new GeoBlock();
+          try {
+            const countryInfo = await geoblock.getCountryInfo();
+            document.getElementById(
+              'countryInfo'
+            ).textContent = `${countryInfo.country} (${countryInfo.countryCode})`;
+          } catch (error) {
+            document.getElementById('countryInfo').textContent =
+              'Error: ' + error.message;
+          }
+        });
+
+      // Test block screen
+      document
+        .getElementById('testBlockBtn')
+        .addEventListener('click', async function () {
+          const geoblock = new GeoBlock({
+            testMode: true,
+            testCountry: 'US',
+            activePresets: ['gambling'],
+            blockMessage:
+              'This is a test block message. Your country is {country} ({countryCode}).',
+          });
+          await geoblock.checkAndBlock();
+        });
+
+      // Test block screen with no dismiss
+      document
+        .getElementById('testBlockNoDismissBtn')
+        .addEventListener('click', async function () {
+          const geoblock = new GeoBlock({
+            testMode: true,
+            testCountry: 'US',
+            activePresets: ['gambling'],
+            blockMessage:
+              'This is a non-dismissible block message. There is no X button and clicking the background does nothing.',
+            allowDismiss: false,
+            dismissOnOverlayClick: false,
+          });
+          await geoblock.checkAndBlock();
+        });
+
+      // Remove block
+      document
+        .getElementById('removeBlockBtn')
+        .addEventListener('click', function () {
+          const geoblock = new GeoBlock();
+          geoblock.removeVisualBlocking();
+        });
+
+      // Check different presets
+      document.querySelectorAll('.preset-btn').forEach((button) => {
+        button.addEventListener('click', async function () {
+          const preset = this.dataset.preset;
+          const resultEl = document.getElementById('presetResult');
+
+          resultEl.textContent = 'Checking...';
+
+          const geoblock = new GeoBlock({
+            activePresets: [preset],
+          });
+
+          try {
+            const result = await geoblock.checkAccess();
+            resultEl.textContent = result.isBlocked
+              ? `Your country (${result.country}) is blocked under the "${preset}" preset.`
+              : `Your country (${result.country}) is NOT blocked under the "${preset}" preset.`;
+          } catch (error) {
+            resultEl.textContent = 'Error: ' + error.message;
+          }
+        });
+      });
+
+      // Test block after scrolling
+      document
+        .getElementById('testBlockWithScrollBtn')
+        .addEventListener('click', async function () {
+          // Scroll to the top of the page first
+          window.scrollTo(0, 0);
+
+          const geoblock = new GeoBlock({
+            testMode: true,
+            testCountry: 'US',
+            activePresets: ['gambling'],
+            blockMessage:
+              'This block message should be properly centered in your viewport, even after scrolling.',
+          });
+          await geoblock.checkAndBlock();
+        });
+    </script>
+  </body>
+</html>

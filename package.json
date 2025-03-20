@@ -1,0 +1,45 @@
+{
+  "name": "geoblock",
+  "version": "1.0.0",
+  "description": "A minimal geoblocking library for game websites",
+  "type": "module",
+  "main": "dist/geoblock.js",
+  "module": "dist/geoblock.esm.js",
+  "types": "dist/geoblock.d.ts",
+  "scripts": {
+    "build": "rollup -c",
+    "test": "jest",
+    "prepublish": "npm run build",
+    "serve": "npm run build && npx http-server -o examples/basic-usage.html"
+  },
+  "keywords": [
+    "geoblocking",
+    "geolocation",
+    "country-restriction",
+    "gambling",
+    "lottery",
+    "compliance"
+  ],
+  "author": "Trifle Labs",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.22.5",
+    "@babel/preset-env": "^7.22.5",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-terser": "^0.4.3",
+    "jest": "^29.5.0",
+    "jest-environment-jsdom": "^29.5.0",
+    "rollup": "^3.25.1",
+    "rollup-plugin-dts": "^5.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/trifle-labs/GeoBlock.git"
+  },
+  "bugs": {
+    "url": "https://github.com/trifle-labs/GeoBlock/issues"
+  },
+  "homepage": "https://github.com/trifle-labs/GeoBlock#readme"
+}

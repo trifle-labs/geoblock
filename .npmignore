@@ -1,0 +1,23 @@
+# Source
+src/
+tests/
+
+# Config files
+.babelrc
+rollup.config.js
+jest.config.js
+.eslintrc
+.eslintignore
+.prettierrc
+.prettierignore
+tsconfig.json
+
+# Other
+.github/
+.vscode/
+coverage/
+node_modules/
+.editorconfig
+.gitignore
+yarn.lock
+*.log 
