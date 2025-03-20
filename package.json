@@ -6,10 +6,21 @@
   "main": "dist/geoblock.js",
   "module": "dist/geoblock.esm.js",
   "types": "dist/geoblock.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/geoblock.esm.js",
+      "require": "./dist/geoblock.js",
+      "types": "./dist/geoblock.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "build": "rollup -c",
     "test": "jest",
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "serve": "npm run build && npx http-server -o examples/basic-usage.html"
   },
   "keywords": [

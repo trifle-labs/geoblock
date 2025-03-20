@@ -32,6 +32,36 @@ yarn add github:trifle-labs/GeoBlock
 <script src="https://unpkg.com/github:trifle-labs/GeoBlock/dist/geoblock.min.js"></script>
 ```
 
+## Using with Vite
+
+To use GeoBlock with Vite:
+
+```bash
+# Install the package
+npm install github:trifle-labs/GeoBlock
+```
+
+Then import and use it in your code:
+
+```javascript
+// ESM import for Vite
+import GeoBlock from 'geoblock';
+
+// Create an instance and check access
+const geoblock = new GeoBlock({
+  activePresets: ['gambling'],
+});
+
+// Check and apply blocking if needed
+geoblock.checkAndBlock().then((hasAccess) => {
+  if (hasAccess) {
+    // Initialize your app
+  }
+});
+```
+
+If you encounter any issues with Vite resolving the package, make sure you're using the latest version of the library and that your Vite configuration is properly set up to resolve node modules.
+
 ## Basic Usage
 
 ```javascript
