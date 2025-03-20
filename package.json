@@ -1,6 +1,6 @@
 {
   "name": "geoblock",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A minimal geoblocking library for game websites",
   "type": "module",
   "main": "dist/geoblock.js",
