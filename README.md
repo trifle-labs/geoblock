@@ -1,11 +1,11 @@
 # GeoBlock
 
-A minimal, yet powerful geoblocking library for game websites. Easily implement country-based access restrictions with predefined presets for different regulatory contexts.
+A minimal, yet powerful geoblocking library for websites. Easily implement country-based access restrictions with predefined presets for different regulatory contexts.
 
 ## Features
 
 - 🌎 Multiple geolocation services with fallbacks
-- 🛡️ Preset country lists for common regulatory scenarios (gambling, lottery, sanctions)
+- 🛡️ Preset country lists for common regulatory scenarios (sanctions, regional restrictions)
 - 🔧 Flexible configuration options
 - 💪 No dependencies
 - 📱 Works in all modern browsers
@@ -49,7 +49,7 @@ import GeoBlock from 'geoblock';
 
 // Create an instance and check access
 const geoblock = new GeoBlock({
-  activePresets: ['gambling'],
+  activePresets: ['sanctions'],
 });
 
 // Check and apply blocking if needed
@@ -70,7 +70,7 @@ import GeoBlock from 'geoblock';
 
 // Create a new instance with default options
 const geoblock = new GeoBlock({
-  activePresets: ['gambling'], // Use the gambling preset
+  activePresets: ['sanctions'], // Use the sanctions preset
   additionalCountries: ['BR', 'AR'], // Add more countries
   exemptCountries: ['CA'], // Exempt specific countries
 });
@@ -108,13 +108,13 @@ const geoblock = new GeoBlock({
 
   // Custom descriptions for presets (shown in blocking message)
   presetDescriptions: {
-    gambling: 'Gambling and betting regulations',
-    custom: 'European regulations',
+    sanctions: 'International sanctions compliance',
+    custom: 'European regulatory restrictions',
     // Override any preset description
   },
 
   // Which presets to apply (can use multiple)
-  activePresets: ['gambling', 'custom'],
+  activePresets: ['sanctions', 'custom'],
 
   // Additional individual countries to block (2-letter country codes)
   additionalCountries: ['BR', 'AR'],

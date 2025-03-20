@@ -88,7 +88,7 @@ console.log(countryInfo);
 const geoblock = new GeoBlock({
   testMode: true,
   testCountry: 'US',
-  activePresets: ['gambling'],
+  activePresets: ['sanctions'],
   // Optional: disable dismissal
   // allowDismiss: false
 });
@@ -101,20 +101,20 @@ await geoblock.checkAndBlock();
       <h2>Check Access for Different Presets</h2>
       <p>Check if your country is blocked under different presets:</p>
       <div>
-        <button class="preset-btn" data-preset="gambling">
-          Check Gambling Restrictions
-        </button>
-        <button class="preset-btn" data-preset="lottery">
-          Check Lottery Restrictions
-        </button>
         <button class="preset-btn" data-preset="sanctions">
           Check Sanctions
+        </button>
+        <button class="preset-btn" data-preset="skillprize">
+          Check Skillprize Restrictions
+        </button>
+        <button class="preset-btn" data-preset="europeanRestrictions">
+          Check European Restrictions
         </button>
       </div>
       <div class="result" id="presetResult">Select a preset to check</div>
       <pre>
 const geoblock = new GeoBlock({
-  activePresets: ['gambling'] // or 'lottery', 'sanctions', etc.
+  activePresets: ['sanctions'] // or 'skillprize', etc.
 });
 const result = await geoblock.checkAccess();
 console.log(result);
@@ -198,7 +198,7 @@ console.log(result);
           const geoblock = new GeoBlock({
             testMode: true,
             testCountry: 'US',
-            activePresets: ['gambling'],
+            activePresets: ['sanctions'],
             blockMessage:
               'This is a test block message. Your country is {country} ({countryCode}).',
           });
@@ -212,7 +212,7 @@ console.log(result);
           const geoblock = new GeoBlock({
             testMode: true,
             testCountry: 'US',
-            activePresets: ['gambling'],
+            activePresets: ['sanctions'],
             blockMessage:
               'This is a non-dismissible block message. There is no X button and clicking the background does nothing.',
             allowDismiss: false,
@@ -262,7 +262,7 @@ console.log(result);
           const geoblock = new GeoBlock({
             testMode: true,
             testCountry: 'US',
-            activePresets: ['gambling'],
+            activePresets: ['sanctions'],
             blockMessage:
               'This block message should be properly centered in your viewport, even after scrolling.',
           });

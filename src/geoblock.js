@@ -1,5 +1,5 @@
 /**
- * GeoBlock.js - A minimal geoblocking library for game websites
+ * GeoBlock.js - A minimal geoblocking library for websites
  *
  * This library provides functions to implement country-based access restrictions
  * with predefined presets for different regulatory contexts.
