@@ -117,6 +117,9 @@ const geoblock = new GeoBlock({
   // Blocking message (supports {country} and {countryCode} placeholders)
   blockMessage: "We're sorry, access to this site is restricted in {country}.",
 
+  // Legal entity for liability disclaimer (optional)
+  legalEntity: 'Company Name Ltd', // If provided, adds liability disclaimer with this entity name
+
   // Visual blocking settings
   visualBlocking: true,
   blockingClass: 'geo-blocked',

@@ -126,9 +126,9 @@ class GeoBlock {
         'IS', // Iceland
       ],
 
-      // Countries with strict sweepstakes regulations
+      // Countries with strict skill based prize regulations
       // Brazil, United Arab Emirates (UAE), Saudi Arabia, Italy, India, Mexico, Qatar, Sweden, Poland, Cayman Islands and any other country or jurisdiction where participation in this Sweepstakes or the distribution of prizes would violate local laws or regulations
-      sweepstakes: [
+      skillprize: [
         'BR', // Brazil
         'AE', // United Arab Emirates
         'SA', // Saudi Arabia
@@ -182,6 +182,9 @@ class GeoBlock {
       blockMessage:
         options.blockMessage ||
         "We're sorry, access to this site is restricted in your region.",
+
+      // Legal entity for liability disclaimer (optional)
+      legalEntity: options.legalEntity || '',
 
       // Visual blocking options
       visualBlocking:
@@ -493,12 +496,27 @@ class GeoBlock {
       countryData.countryCode || 'XX'
     );
 
-    // Add the standard VPN notice
-    message +=
-      '<p style="margin-top: 20px; font-size: 0.9em;">We detected that your country is ' +
-      (countryData.country || countryData.countryCode) +
-      ' and it is our assumption that visiting this site may be an issue in your region. ' +
-      'If you think you are seeing this warning unnecessarily, please ensure you do not have any VPN service running.</p>';
+    // Add the standard notice and disclaimer
+    message += `
+      <p style="margin-top: 20px; font-size: 0.9em;">
+        <strong>Important Notice:</strong> We've detected that you're accessing from ${
+          countryData.country || countryData.countryCode
+        }. 
+        Some features of this site may be restricted or not permitted in your region.
+        <br><br>
+        Please be aware that it is your responsibility to comply with your local laws and regulations.
+        Continuing to use this site where prohibited may violate local regulations.
+        ${
+          this.config.legalEntity
+            ? `<br><br>
+          ${this.config.legalEntity} bears no liability for any legal consequences that may arise from accessing or using 
+          this service in jurisdictions where such activities are restricted or prohibited.`
+            : ''
+        }
+        <br><br>
+        <em>Note: If you believe you're seeing this message in error, please check if you have a VPN 
+        or proxy service enabled, as this may incorrectly identify your location.</em>
+      </p>`;
 
     return message;
   }

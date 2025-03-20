@@ -28,6 +28,11 @@ export interface GeoBlockOptions {
   blockMessage?: string;
 
   /**
+   * Legal entity name for liability disclaimer (optional)
+   */
+  legalEntity?: string;
+
+  /**
    * Visual blocking options
    */
   visualBlocking?: boolean;
